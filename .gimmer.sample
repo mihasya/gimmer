@@ -1,0 +1,4 @@
+"^((?:us|eu)\-\w+\-\w+)$": "-Fec2_placement=\g<1>",
+"^(\d+\.\d+\.\d+\.\d+)$": "-Fipaddress_eth0=\g<1>",
+"^(i\-\w+)$": "-Fec2_instance_id=\g<1>",
+
