@@ -26,7 +26,7 @@ def import_patterns(filename, patterns):
         patterns.update(eval(dict_line))
     return patterns
 
-def transform(arg):
+def transform(arg, patterns):
     for pattern, replacement in patterns.iteritems():
         (result, subs) = re.subn(pattern, replacement, arg)
         if (subs > 0):
@@ -34,21 +34,20 @@ def transform(arg):
     # return as is
     return arg
 
-# TODO: make this configurable
-mc_bin = "/usr/sbin/mc-find-hosts"
+binary = getenv("GIMMER_BINARY") or "/usr/sbin/mc-find-hosts"
+filenames = ["/etc/gimmer", "%s/.gimmer" % getenv("HOME")]
 
 # mapping of patterns and their replacements
 patterns = {}
 
-filenames = ["/etc/gimmer", "%s/.gimmer" % getenv("HOME")]
-
+# actually populate the patterns dict
 for filename in filenames:
     try:
         import_patterns(filename, patterns)
     except IOError, e:
         pass
 
-arguments = map(transform, argv[1:])
+arguments = map(lambda arg: transform(arg, patterns), argv[1:])
 
 print "arguments: %s" % " ".join(arguments)
 
@@ -56,4 +55,4 @@ print "arguments: %s" % " ".join(arguments)
 arguments = [''] + arguments
 
 # hand it over to mcollective
-execv(mc_bin, arguments)
+execv(binary, arguments)
