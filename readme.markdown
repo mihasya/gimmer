@@ -32,6 +32,6 @@ Some sample patterns are found in `.gimmer.sample` For example,
 `"^(i\-\w+)$": "-Fec2_instance_id=\g<1>"`
 
 will recognize any argument that looks like an instance ID (i-23adf34) and turn
-it into `-Fec2\_instance\_id=i23adf34` and the resulting mc-find-hosts command
+it into `-Fec2_instance_id=i23adf34` and the resulting mc-find-hosts command
 will find that instance.
 
